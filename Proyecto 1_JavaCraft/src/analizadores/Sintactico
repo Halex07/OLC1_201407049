@@ -1,0 +1,67 @@
+package analisis;
+
+//importaciones 
+import java_cup.runtime.Symbol;
+
+//parser
+
+parser code
+{:
+    scannner s;
+    parser(scannner s) {this.s=s;}
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintactico en la linea " +
+        (s.left) + " y columna ")
+    }
+:}
+
+
+action code
+{:
+    String codigoUsr="";
+:}
+
+terminal String CADENA, ENTERO, DECIMAL;
+terminal FINCADENA, IMPRIMIR;
+terminal MAS, MENOS, MULT, DIV;
+terminal PAR1, PAR2;
+terminal UMENOS;
+
+noterminal String INICIO;
+noterminal INSTRUCCIONES, INSTRUCCION;
+noterminal Double EXPRESION;
+
+procedence left MAS, MENOS;
+procedence left MULT, DIV;
+procedence right UMENOS;
+
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES
+;
+
+INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION
+                  | INSTRUCCION
+;
+
+INSTRUCCIONES ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA             {: codigoUsr+=a+"\n";      :}
+                  | IMPRIMIR PAR1 CADENA:b PAR2 FINCADENA              {: codigoUsr+=a+"\n";      :}
+;
+
+EXPRESION ::= MENOS EXPRESION:a                           {: RESULT = a * -1;         :}%prec UMENOS
+              | EXPRESION:a MAS EXPRESION:b               {: RESULT = a + b;         :}
+              | EXPRESION:a MENOS EXPRESION:b             {: RESULT = a - b;         :}
+              | EXPRESION:a MULT EXPRESION:b              {: RESULT = a * b;         :}
+              | EXPRESION:a DIV EXPRESION:b               {: RESULT = a / b;         :}
+              | ENTERO:a                                  {: RESULT = new Double(a);         :}
+              | DECIMAL:a                                 {: RESULT = new Double(a);         :}
+              | PAR1 EXPRESION:a PAR2                     {: RESULT = a;         :}         
+;
+
+/* 
+terminales ->
+no terminales ->
+S -> a b c D
+D -> f l g
+*/
