@@ -49,6 +49,8 @@ public class sym {
   public static final int AMP =38;
   public static final int CHAR =39;
   public static final int MATCH =40;
+  public static final int WHILE =41;
+  public static final int DOWHILE =42;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -90,7 +92,9 @@ public class sym {
   "BARRA",
   "AMP",
   "CHAR",
-  "MATCH"
+  "MATCH",
+  "WHILE",
+  "DOWHILE"
   };
 }
 

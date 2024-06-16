@@ -29,6 +29,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -45,6 +46,9 @@ public class Principal extends javax.swing.JFrame {
     JMenuItem i1 = new JMenuItem("Abrir archivo");*/
     File archivo;
     FileInputStream entrada;
+    
+    scanner lexico;
+    parser sintactico;
 
     /*JMenu menu2 = new JMenu("Reportes");
     JMenuItem i2 = new JMenuItem("Reportes de errores");*/
@@ -60,55 +64,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     
-    //boton 
-    public class HtmlButtonApp {
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Generador de HTML");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 100);
-
-        JButton button = new JButton("Generar HTML");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tablaSimbolos tabla = crearTablaEjemplo(); // Método ficticio para crear una tabla de símbolos de ejemplo
-                String htmlContent = HtmlGenerator.generarTablaHtml(tabla);
-
-                // Escribir el HTML a un archivo temporal
-                File tempFile = new File("tabla_simbolos.html");
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-                    writer.write(htmlContent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-                // Abrir el archivo HTML en el navegador
-                try {
-                    Desktop.getDesktop().browse(tempFile.toURI());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        frame.getContentPane().add(button);
-        frame.setVisible(true);
-    }
-
-    // Método ficticio para crear una tabla de símbolos de ejemplo
-    private static tablaSimbolos crearTablaEjemplo() {
-        tablaSimbolos tabla = new tablaSimbolos();
-
-       /* Simbolo simbolo1 = new Simbolo(new Tipo("entero"), "x", 10);
-        Simbolo simbolo2 = new Simbolo(new Tipo("cadena"), "mensaje", "Hola, mundo!");
-
-        tabla.setVariable(simbolo1);
-        tabla.setVariable(simbolo2);*/
-
-        return tabla;
-    }
-}
+    
     
 
     /**
@@ -131,8 +87,10 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 102, 102));
 
         jLabel1.setText("Entrada");
 
@@ -168,6 +126,15 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Reportes");
+
+        jMenuItem2.setText("Errores");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -179,16 +146,22 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1039, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1042, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,13 +170,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -268,6 +241,81 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    /*public void ReporteErrores() {
+        FileWriter Reporte = null;
+        PrintWriter pw = null;
+        try {
+            Reporte = new FileWriter("REPORTE DE ERRORES.html");
+            pw = new PrintWriter(Reporte);
+            pw.println("<html>");
+            pw.println("<head>");
+            pw.println("<meta charset=\"UTF-8\">");
+            pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">");
+            pw.println("<title> REPORTE DE ERRORES </title>");
+            pw.println("</head>");
+            pw.println("<body>");
+            pw.println("<center>");
+            pw.println("<h1>  REPORTE ERRORES </h1>");
+            pw.println("<table class=\"table table-striped table-hover\">");
+            pw.println("<tbody>");
+
+            pw.println("<td>Num</td>");
+            pw.println("<td>Lexema</td>");
+            pw.println("<td>Fila</td>");
+            pw.println("<td>Columna</td>");
+            pw.println("<td>Descripcion</td>");
+            pw.println("<td>Tipo</td>");
+            int c = 0;
+            for (int i = 0; i < lexico.listaErrores.size(); i++) {
+                pw.println("<tr>");
+
+                pw.println("<td>" + i + "</td>");
+                pw.println("<td>" + lexico.listaErrores.get(i).getTipo() + "</td>");
+                pw.println("<td>" + lexico.listaErrores.get(i).getLinea() + "</td>");
+                pw.println("<td>" + lexico.listaErrores.get(i).getColumna() + "</td>");
+                pw.println("<td>" + lexico.listaErrores.get(i).getDesc() + "</td>");
+                pw.println("<td>LEXICO</td>");
+                pw.println("</tr>");
+                c = i;
+            }
+            for (int i = 0; i < lexico.listaErrores.size(); i++) {
+                System.out.println(lexico.listaErrores.get(i).toString());
+            }
+            for (int i = 0; i < sintactico.listaErrores.size(); i++) {
+                c++;
+                pw.println("<tr>");
+                pw.println("<td>" + c + "</td>");
+                pw.println("<td>" + sintactico.listaErrores.get(i).getTipo() + "</td>");
+                pw.println("<td>" + sintactico.listaErrores.get(i).getLinea() + "</td>");
+                pw.println("<td>" + sintactico.listaErrores.get(i).getColumna() + "</td>");
+                pw.println("<td>" + sintactico.listaErrores.get(i).getDesc() + "</td>");
+                pw.println("<td>SINTACTICO</td>");
+                pw.println("</tr>");
+            }
+
+            pw.println("</tbody>");
+            pw.println("</table>");
+            pw.println("</center>");
+            pw.println("</body>");
+            pw.println("</HTML>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != Reporte) {
+                    Reporte.close();
+                    System.out.println("REPORTE ERRORES GENERADOS");
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
      //abrir archivo
     public String abrirArchivo(File archivo){
         
@@ -285,7 +333,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         return texto;
-    }
+    }*/
     
     /**
      * @param args the command line arguments
@@ -330,6 +378,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea2;
