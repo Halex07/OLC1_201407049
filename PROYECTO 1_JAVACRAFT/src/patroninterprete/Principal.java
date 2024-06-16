@@ -49,6 +49,7 @@ public class Principal extends javax.swing.JFrame {
     
     scanner lexico;
     parser sintactico;
+    private LinkedList<Errores> listaErrores;
 
     /*JMenu menu2 = new JMenu("Reportes");
     JMenuItem i2 = new JMenuItem("Reportes de errores");*/
@@ -243,7 +244,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        
+        ReporteErrores reporteErrores = new ReporteErrores(listaErrores);
+                reporteErrores.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /*public void ReporteErrores() {
@@ -315,7 +317,7 @@ public class Principal extends javax.swing.JFrame {
                 e2.printStackTrace();
             }
         }
-    }
+    }*/
      //abrir archivo
     public String abrirArchivo(File archivo){
         
@@ -333,7 +335,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         return texto;
-    }*/
+    }
     
     /**
      * @param args the command line arguments

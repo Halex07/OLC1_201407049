@@ -66,6 +66,7 @@ terminal TRUE, FALSE, IF, BOOL, MATCH;
 terminal LLAVE1, LLAVE2;
 terminal FOR, MENOR, DIF, WHILE, DOWHILE;
 terminal CASA, AMP, BARRA,OR,AND,XOR,NOT
+terminal VAR, CONST;
 terminal String BREAK;
 
 
@@ -112,12 +113,15 @@ INSTRUCCION ::= IMPRESION: a        {:   RESULT=a;   :}
               | CDOWHILE:a          {:   RESULT=a;   :}
               | BREAKK:a            {:   RESULT=a;   :}
               | error FINCADENA
+              
 ;
 
 IMPRESION ::= PRINTLN PAR1 EXPRESION:a PAR2 FINCADENA      {:   RESULT = new Print(a, aleft, aright);   :}
 ;
 
-DECLARACION ::= TIPOS:a ID:b IGUAL EXPRESION:c FINCADENA    {:   RESULT = new Declaracion(b, c, a, aleft, aright);   :}
+DECLARACION ::= TIPOS:a ID:b IGUAL EXPRESION:c FINCADENA      {: RESULT = new Declaracion(b, c, a, aleft, aright);           :}
+                | VAR ID:b ":" TYPE:c EQUALS EXPRESION:d FINCADENA    {: RESULT = new Declaracion(b, d, new Tipo(c), aleft, aright); :}
+                | CONST ID:b ":" TYPE:c EQUALS EXPRESION:d FINCADENA  {: RESULT = new Declaracion(b, d, new Tipo(c), aleft, aright); :}
 ;
 
 ASIGNACION ::= ID:a IGUAL EXPRESION:b FINCADENA  {:   RESULT=new AsignacionVar(a, b, aleft, aright);  :}
@@ -191,5 +195,7 @@ EXPRESION ::= MENOS EXPRESION:a             {:   RESULT = new Aritmeticas(a, Ope
             | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
             | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
             | ID:a          {:   RESULT = new AccesoVar(a, aleft, aright);   :}
+            | VAR           {:   return new Symbol(sym.VAR); }
+            | CONST         {:   return new Symbol(sym.CONST); }
             | PAR1 EXPRESION:a PAR2     {:   RESULT = a;   :}
-;  
+;                        

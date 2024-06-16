@@ -29,6 +29,7 @@ import excepciones.Errores;
 //%debug
 %ignorecase
 
+
 //simbolos del sistema
 PAR1="("
 PAR2=")"
@@ -65,6 +66,10 @@ TRUE="true"
 FALSE="false"
 BOOL="bool"
 FOR="for"
+WHILE="while"
+DOWHILE="dowhile"
+VAR="var"
+CONST="const"
 BREAK="break"
 
 %%
@@ -79,11 +84,15 @@ BREAK="break"
 <YYINITIAL> {MATCH} {return new Symbol(sym.MATCH, yyline, yycolumn,yytext());}
 <YYINITIAL> {BOOL} {return new Symbol(sym.BOOL, yyline, yycolumn,yytext());}
 <YYINITIAL> {FOR} {return new Symbol(sym.FOR, yyline, yycolumn,yytext());}
+<YYINITIAL> {WHILE} {return new Symbol(sym.WHILE, yyline, yycolumn,yytext());}
+<YYINITIAL> {DOWHILE} {return new Symbol(sym.DOWHILE, yyline, yycolumn,yytext());}
 <YYINITIAL> {BREAK} {return new Symbol(sym.BREAK, yyline, yycolumn,yytext());}
 
 
 
 <YYINITIAL> {ID} {return new Symbol(sym.ID, yyline, yycolumn,yytext());}
+<YYINITIAL> {VAR}        {  { return new Symbol(sym.VAR); }
+<YYINITIAL> {CONST}      { return new Symbol(sym.CONST); }
 
 <YYINITIAL> {DECIMAL} {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
 <YYINITIAL> {ENTERO} {return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
@@ -112,6 +121,7 @@ BREAK="break"
 <YYINITIAL> {BARRA} {return new Symbol(sym.BARRA, yyline, yycolumn,yytext());}
 <YYINITIAL> {AMP} {return new Symbol(sym.AMP, yyline, yycolumn,yytext());}
 <YYINITIAL> {CASA} {return new Symbol(sym.CASA, yyline, yycolumn,yytext());}
+
 
 <YYINITIAL> {BLANCOS} {}
 

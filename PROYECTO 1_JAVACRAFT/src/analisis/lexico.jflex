@@ -29,6 +29,7 @@ import excepciones.Errores;
 //%debug
 %ignorecase
 
+
 //simbolos del sistema
 PAR1="("
 PAR2=")"
@@ -67,6 +68,8 @@ BOOL="bool"
 FOR="for"
 WHILE="while"
 DOWHILE="dowhile"
+VAR="var"
+CONST="const"
 BREAK="break"
 
 %%
@@ -88,6 +91,8 @@ BREAK="break"
 
 
 <YYINITIAL> {ID} {return new Symbol(sym.ID, yyline, yycolumn,yytext());}
+<YYINITIAL> {VAR}        {  { return new Symbol(sym.VAR); }
+<YYINITIAL> {CONST}      { return new Symbol(sym.CONST); }
 
 <YYINITIAL> {DECIMAL} {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
 <YYINITIAL> {ENTERO} {return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
@@ -116,6 +121,7 @@ BREAK="break"
 <YYINITIAL> {BARRA} {return new Symbol(sym.BARRA, yyline, yycolumn,yytext());}
 <YYINITIAL> {AMP} {return new Symbol(sym.AMP, yyline, yycolumn,yytext());}
 <YYINITIAL> {CASA} {return new Symbol(sym.CASA, yyline, yycolumn,yytext());}
+
 
 <YYINITIAL> {BLANCOS} {}
 
